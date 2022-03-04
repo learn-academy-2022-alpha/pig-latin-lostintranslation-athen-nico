@@ -17,6 +17,38 @@ class App extends Component{
 
   // The "myPigLatinCodeHere" function is where you will put your logic to convert the sentence entered by the user to Pig Latin
 
+  // PSEUDO-Code
+
+  // If word starts with a consonant, take the first character of the word by using [0] and store that information into a variable called firstConsonant.
+  // Remove the first consonant with a built-in method and add the variable firstConsonant to the end of the currentWord and add "-ay".
+  // "bee" --> "eebay"
+
+  // If word starts with multiple consonants, find the first vowel and take the letters before the first vowel and store that information into a variable called multipleConsonants.
+  // Remove the consonants before the first vowel and add the variable multipleConsonants to the end of the currentWord and add "-ay"
+  // "throw" --> "owthray"
+  // "fry" --> "yfray"
+  // "starry" --> "arrystay"
+
+  // If value of 0th index of currentWord is a vowel ("a", "e", "i", "o", "u"), then add "-way" to the end of currentWord.
+  // "apple" --> "appleway"
+
+  // If value of 0th index AND 1st index is strictly equal to "qu", take the value of those indexes and store that into a variable called firstSyllable
+  // Remove value of 0th index and 1st index using a built-in method and add the variable firstSyllable to the end of currentWord + "-ay"
+  // "queen" --> "eenquay"
+  // "quake" --> "akequay"
+
+  //Come back later
+  // "squeal" --> "ealsquay"
+
+  // If value of 0th index is strictly equal "y", take that value "y" and store into a variable called firstY.
+  // Add variable firstY to the end of userInput and add "-ay".
+  // "yogurt" --> "ogurtyay"
+
+  //
+  // "fry" --> "yfray"
+
+
+
   myPigLatinCodeHere = () => {
     // the variable "userInput" will contain the text input from the user modified into an array of words
     // no need to change this variable
@@ -26,6 +58,13 @@ class App extends Component{
     // now that we have an array of words, we can map over the array and access each word
     let translatedWordsArray = userInput.map(currentWord => {
       // ACTION ITEM: use "currentWord" as a starting point for your code
+    let latinWord = ""
+    let vowels = ["a", "e", "i", "o", "u"]
+    let wordArray = currentWord.toLowerCase().split("")
+    let firstConsonant = wordArray.slice(0,1).toString()
+    let indexVowel = wordArray.indexOf(vowels)
+    let firstVowel = wordArray.length - indexVowel
+    let multipleConsonants = wordArray.slice(0, firstVowel )
       console.log("currentWord:", currentWord)
 
       let vowelsArray = currentWord.split("").filter(vowel => {
@@ -34,12 +73,24 @@ class App extends Component{
       console.log("vowelsArray:", vowelsArray)
 
       // your code here!
+      if(vowels.includes(wordArray[0])){
+        latinWord = wordArray.join("") + "way"
+      }
+        else if(!vowels.includes(wordArray[0])){
+        wordArray.shift()
+        latinWord = wordArray.join("")+firstConsonant+"ay"
+        // --> "pineapplepay" GOAL: "ineapplepay"
+      }
+        else if(wordArray[indexVowel] > 1){
+        wordArray.slice(0, firstVowel)
+        latinWord = wordArray.join("")+multipleConsonants+"ay"
+      }
 
       // Remember: console.log is your friend :)
 
 
       // ACTION ITEM: change the value of currentWord to the name of whatever variable you made containing your Pig Latin'd word
-      return currentWord
+      return latinWord
     })
 
 
@@ -99,7 +150,7 @@ class App extends Component{
           <button onClick={this.restartGame}>Clear</button>
         </div>
         <p>{this.state.phraseTranslated}</p>
-        <footer>Coded by ~your name here~</footer>
+        <footer>Athen & Nico</footer>
       </>
     )
   }
